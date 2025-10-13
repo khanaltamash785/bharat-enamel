@@ -1,155 +1,157 @@
+"use client";
+
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+
 export default function Features() {
   const features = [
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 10V3L4 14h7v7l9-11h-7z"
-          />
-        </svg>
-      ),
-      title: "Lightning Fast",
+      img: "/high-quality.png",
+      title: "High-Quality Materials",
       description:
-        "Optimized performance with Next.js for blazing fast load times and seamless user experience.",
+        "Built using premium-grade materials to ensure long-lasting durability, weather resistance, and vibrant visual impact.",
+      textColor: "text-white",
     },
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-          />
-        </svg>
-      ),
-      title: "Secure & Reliable",
+      img: "/images.png",
+      title: "Custom Design Solutions",
       description:
-        "Enterprise-grade security features to keep your data safe and protected at all times.",
+        "From concept to creation, we craft signage tailored to your brand identity, ensuring every design stands out.",
+      textColor: "text-white",
     },
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-          />
-        </svg>
-      ),
-      title: "Fully Responsive",
+      img: "/led.png",
+      title: "Vintage & Retro Sign boards",
       description:
-        "Beautiful design that works perfectly on all devices, from mobile phones to desktop screens.",
+        "Make your brand visible day and night with energy-efficient LED and backlit signage solutions.",
+      textColor: "text-white",
     },
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-          />
-        </svg>
-      ),
-      title: "Easy Customization",
+      img: "/fast.png",
+      title: "Fast & Reliable Installation",
       description:
-        "Customize every aspect of your platform with our intuitive tools and flexible design system.",
+        "Our experienced team ensures hassle-free, on-time installation with precision and safety.",
+      textColor: "text-white",
     },
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-          />
-        </svg>
-      ),
-      title: "24/7 Support",
+      img: "/support.png",
+      title: "Maintenance & Support",
       description:
-        "Round-the-clock customer support to help you whenever you need assistance.",
+        "We offer regular maintenance and repair services to keep your signage looking as good as new.",
+      textColor: "text-white",
     },
     {
-      icon: (
-        <svg
-          className="w-12 h-12"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-          />
-        </svg>
-      ),
-      title: "Analytics Dashboard",
+      img: "/digital.jpeg",
+      title: "Digital Display Integration",
       description:
-        "Track your progress with detailed analytics and insights to make data-driven decisions.",
+        "Stay ahead with dynamic, programmable digital signage that engages and attracts customers effortlessly.",
+      textColor: "text-white",
     },
   ];
 
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const handleToggle = (index) => {
+    setActiveIndex(activeIndex === index ? null : index);
+  };
+
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-6">
+    <section className="py-20 bg-gray-50 overflow-hidden">
+      <div className="container mx-auto px-4 sm:px-6">
+        {/* Heading */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
             Powerful Features
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Everything you need to build and grow your business in one powerful
-            platform
+          <div className="w-72 h-1 bg-gray-800 mx-auto rounded-full"></div>
+
+          <p className="pt-3 text-xl text-gray-600 max-w-2xl mx-auto">
+            Bringing Your Brand to Life — Signage That Speaks for Itself.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {/* Desktop grid */}
+        <div className="hidden lg:grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <div
+            <FeatureCard
               key={index}
-              className="bg-white p-8 rounded-xl shadow-lg hover:shadow-2xl transition transform hover:-translate-y-2"
-            >
-              <div className="text-blue-600 mb-4">{feature.icon}</div>
-              <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
+              feature={feature}
+            />
+          ))}
+        </div>
+
+        {/* Mobile & Tablet horizontal scroll */}
+        <div className="lg:hidden flex space-x-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-2 pb-4">
+          {features.map((feature, index) => (
+            <FeatureCardMobile
+              key={index}
+              index={index}
+              feature={feature}
+              isActive={activeIndex === index}
+              onToggle={() => handleToggle(index)}
+            />
           ))}
         </div>
       </div>
     </section>
+  );
+}
+
+/* Desktop Card - Hover effect */
+function FeatureCard({ feature }) {
+  return (
+    <div className="relative overflow-hidden rounded-xl shadow-lg h-80 cursor-pointer group">
+      {/* Image */}
+      <div className="absolute inset-0 transition-all duration-700 ease-in-out group-hover:blur-sm group-hover:brightness-75">
+        <Image
+          src={feature.img}
+          alt={feature.title}
+          fill
+          className="object-cover object-center"
+        />
+      </div>
+
+      {/* Overlay Content */}
+      <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white z-20 transition-all duration-700 opacity-0 group-hover:opacity-100 p-6">
+        <h3 className="text-2xl font-bold mb-2">{feature.title}</h3>
+        <p className="text-sm sm:text-base">{feature.description}</p>
+      </div>
+    </div>
+  );
+}
+
+/* Mobile Card - Click effect matching desktop hover */
+function FeatureCardMobile({ feature, index, isActive, onToggle }) {
+  return (
+    <div
+      className="relative w-[80vw] max-w-xs h-64 rounded-xl shadow-lg flex-shrink-0 overflow-hidden cursor-pointer snap-center"
+      onClick={onToggle}
+    >
+      {/* Image with blur animation - same as desktop */}
+      <div 
+        className={`absolute inset-0 transition-all duration-700 ease-in-out ${
+          isActive ? 'blur-sm brightness-75' : ''
+        }`}
+      >
+        <Image
+          src={feature.img}
+          alt={feature.title}
+          fill
+          className="object-cover"
+          sizes="80vw"
+        />
+      </div>
+
+      {/* Overlay Content - same as desktop */}
+      <div 
+        className={`absolute inset-0 flex flex-col justify-center items-center text-center text-white z-20 transition-all duration-700 p-4 ${
+          isActive ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+        <p className="text-sm">{feature.description}</p>
+      </div>
+    </div>
   );
 }
