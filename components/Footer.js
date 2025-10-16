@@ -13,7 +13,7 @@ export default function Footer() {
               {/* Logo */}
               <div className="bg-inherit p-1 rounded inline-block w-fit">
                 <Image 
-                  src="/be-logo.svg"
+                  src="/icons/be-logo.svg"
                   height={80}
                   width={80}
                   alt="Bharat Enamel Logo"

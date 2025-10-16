@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Shield, Award, Calendar, MailOpen, PhoneCall, MapPin } from 'lucide-react';
 
-// Reusable Input Field Component
+//  Input Field Component
 const InputField = ({ label, name, type = "text", value, onChange, placeholder, required }) => (
   <div>
     <label htmlFor={name} className="block text-sm font-semibold text-gray-700 mb-2">
@@ -16,13 +16,13 @@ const InputField = ({ label, name, type = "text", value, onChange, placeholder, 
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-400 focus:border-transparent outline-none transition"
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-gray-600 focus:border-transparent outline-none transition"
       required={required}
     />
   </div>
 );
 
-//  Reusable Info Card
+//  Info Card
 const InfoCard = ({ icon: Icon, title, description }) => (
   <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition duration-300">
     <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-4">
@@ -41,7 +41,6 @@ const ContactInfo = () => (
     </h2>
 
     <div className="space-y-6 text-gray-700">
-      {/* Phones */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 space-y-3 sm:space-y-0">
         <div className="flex items-center space-x-2">
           <PhoneCall />
@@ -53,15 +52,13 @@ const ContactInfo = () => (
         </div>
       </div>
 
-      {/* Email */}
       <div className="flex items-center space-x-3">
         <MailOpen />
-        <span className="text-lg font-semibold text-gray-600 hover:text-indigo-600 transition duration-150">
+        <span className="text-lg font-semibold text-gray-600 hover:text-gray-800 transition duration-150">
           bharatenamel@gmail.com
         </span>
       </div>
 
-      {/* Address */}
       <div className="flex items-start space-x-3">
         <MapPin />
         <span className="text-base leading-snug">
@@ -73,6 +70,7 @@ const ContactInfo = () => (
   </div>
 );
 
+//  Main Component
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
@@ -86,35 +84,54 @@ export default function Contact() {
     agreeToPrivacy: false,
   });
 
+  const [status, setStatus] = useState({ type: '', message: '' }); // success or error
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    setFormData((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
-  const handleSubmit = (e) => {
+  //  Handle Form Submit 
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Form submitted successfully!');
-    setFormData({
-      name: '',
-      location: '',
-      company: '',
-      jobTitle: '',
-      email: '',
-      phone: '',
-      helpDescription: '',
-      fileLink: '',
-      agreeToPrivacy: false,
-    });
+    setIsSubmitting(true);
+    setStatus({ type: '', message: '' });
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('Network response was not ok');
+
+      setStatus({ type: 'success', message: ' Thank you! Your enquiry has been sent successfully.' });
+      setFormData({
+        name: '',
+        location: '',
+        company: '',
+        jobTitle: '',
+        email: '',
+        phone: '',
+        helpDescription: '',
+        fileLink: '',
+        agreeToPrivacy: false,
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setStatus({ type: 'error', message: 'Something went wrong. Please try again later.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 pt-5">
       {/* Header */}
       <div className="text-center mb-16 mt-5 px-4">
-        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
-          Contact Us
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Contact Us</h1>
         <div className="w-72 h-1 bg-gray-800 mx-auto rounded-full"></div>
         <p className="pt-3 text-xl text-gray-600 max-w-2xl mx-auto">
           Connect With us For a Free Consultation on Your Project.
@@ -127,6 +144,19 @@ export default function Contact() {
           {/* Form Section */}
           <div className="lg:col-span-2 bg-white rounded-xl shadow-lg p-8">
             <h2 className="text-2xl font-bold text-gray-800 mb-8">SEND ENQUIRY</h2>
+
+            {/* Success / Error Message */}
+            {status.message && (
+              <div
+                className={`mb-6 p-4 rounded-lg text-sm font-medium ${
+                  status.type === 'success'
+                    ? 'bg-green-100 text-green-800 border border-green-300'
+                    : 'bg-red-100 text-red-800 border border-red-300'
+                }`}
+              >
+                {status.message}
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name / Location */}
@@ -141,10 +171,9 @@ export default function Contact() {
                 <InputField label="How Can We Help?" name="helpDescription" value={formData.helpDescription} onChange={handleChange} placeholder="Describe briefly" required />
               </div>
 
-              {/* Job Title / File Link */}
+              {/* Job Title */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <InputField label="Job Title" name="jobTitle" value={formData.jobTitle} onChange={handleChange} placeholder="Enter your job title" required />
-                <InputField label="File Hosting Link" type="url" name="fileLink" value={formData.fileLink} onChange={handleChange} placeholder="We recommend WeTransfer" />
               </div>
 
               {/* Email / Phone */}
@@ -161,7 +190,7 @@ export default function Contact() {
                   name="agreeToPrivacy"
                   checked={formData.agreeToPrivacy}
                   onChange={handleChange}
-                  className="mt-1 w-5 h-5 text-gray-400 border-gray-300 rounded focus:ring-gray-400 cursor-pointer"
+                  className="mt-1 w-5 h-5 text-gray-600 border-gray-300 rounded focus:ring-gray-600 cursor-pointer"
                   required
                 />
                 <label htmlFor="agreeToPrivacy" className="ml-3 text-sm text-gray-700">
@@ -175,24 +204,32 @@ export default function Contact() {
               {/* Submit Button */}
               <button
                 type="submit"
-                className="px-8 py-3 bg-gray-800 text-white font-semibold rounded-full hover:bg-gray-700 transition duration-300"
+                disabled={isSubmitting}
+                className={`px-8 py-3 bg-gray-800 text-white font-semibold rounded-full transition duration-300 ${
+                  isSubmitting ? 'opacity-60 cursor-not-allowed' : 'hover:bg-gray-700'
+                }`}
               >
-                Submit
+                {isSubmitting ? 'Submitting...' : 'Submit'}
               </button>
             </form>
           </div>
 
           {/* Info Cards */}
           <div className="space-y-6">
-            <InfoCard 
-            icon={Shield} title="Your Privacy Respected" 
-            description="We guarantee no spam and utmost confidentiality. Your information is for consultation purposes only and won't be shared with third parties." 
+            <InfoCard
+              icon={Shield}
+              title="Your Privacy Respected"
+              description="We guarantee no spam and utmost confidentiality. Your information is for consultation purposes only and won't be shared with third parties."
             />
-            <InfoCard icon={Award} title="Quality, Tailored Insights" 
-            description="Benefit from high-quality advice from our experts, tailored to your project needs." 
+            <InfoCard
+              icon={Award}
+              title="Quality, Tailored Insights"
+              description="Benefit from high-quality advice from our experts, tailored to your project needs."
             />
-            <InfoCard icon={Calendar} title="No Obligations, Full Flexibility" 
-            description="Our free consultation is no-strings-attached and scheduled at your convenience." 
+            <InfoCard
+              icon={Calendar}
+              title="No Obligations, Full Flexibility"
+              description="Our free consultation is no-strings-attached and scheduled at your convenience."
             />
           </div>
         </div>

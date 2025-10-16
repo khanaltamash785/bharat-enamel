@@ -6,25 +6,25 @@ export default function Services() {
       title: "Custom Signage Design",
       description:
         "Eye-catching signs that perfectly capture your brand identity — available in both 2D and 3D designs.",
-      image: "/signage-1.jpg",
+      image: "/signage/signage-1.jpg",
     },
     {
       title: "Vintage & Retro Sign Boards",
       description:
-        "Stylish LED and digital boards designed to stand out — ideal for indoor and outdoor use.",
-      image: "/signage-2.jpg",
+        "Bring timeless charm to your space with our Vintage & Retro Sign Boards, crafted to evoke a bold statement.",
+      image: "/signage/signage-2.jpg",
     },
     {
       title: "Vehicle & Fleet Branding",
       description:
         "Transform vehicles into mobile advertisements with vibrant vinyl wraps and branding graphics.",
-      image: "/signage-3.jpg",
+      image: "/signage/signage-3.jpg",
     },
     {
       title: "Hazard & Danger Signage",
       description:
         "Durable warning and safety signs for industrial, construction, and commercial environments.",
-      image: "/signage-4.png",
+      image: "/signage/signage-4.png",
     },
   ];
 

@@ -3,29 +3,29 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const router = useRouter();
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
+  const handleLoginClick = () => {
+    closeMobileMenu();
+    router.push("/admin");
   };
 
   return (
     <header className="bg-white shadow-md">
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
+          {/* Logo Section */}
           <div className="flex items-center">
-            <Link
-              href="/"
-              className="flex items-center text-2xl font-bold"
-            >
+            <Link href="/" className="flex items-center text-2xl font-bold">
               <Image
-                src="/be-logo.svg"
+                src="/icons/be-logo.svg"
                 width={60}
                 height={60}
                 alt="logo"
@@ -40,31 +40,21 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-6 xl:space-x-8 text-base xl:text-lg">
-            <Link href="#hero" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">
-              Home
-            </Link>
-            <Link href="#about" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">
-              About Us
-            </Link>
-            <Link href="#services" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">
-              Services
-            </Link>
-            <Link href="#gallery" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">
-              Gallery
-            </Link>
-            <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">
-              Contact Us
-            </Link>
+            <Link href="#hero" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">Home</Link>
+            <Link href="#about" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">About Us</Link>
+            <Link href="#services" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">Services</Link>
+            <Link href="#gallery" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">Gallery</Link>
+            <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap">Contact Us</Link>
           </div>
 
           {/* Desktop Auth Buttons */}
           <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
-            <Link
-              href="/login"
+            <button
+              onClick={handleLoginClick}
               className="text-gray-700 hover:text-blue-600 transition whitespace-nowrap"
             >
-              Login
-            </Link>
+              Admin Login
+            </button>
             <Link
               href="/signup"
               className="bg-blue-600 text-white px-4 xl:px-6 py-2 rounded-lg hover:bg-blue-700 transition whitespace-nowrap"
@@ -73,96 +63,42 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Mobile menu button */}
-          <button 
+          {/* Mobile Menu Toggle */}
+          <button
             className="lg:hidden text-gray-700"
             onClick={toggleMobileMenu}
             aria-label="Toggle mobile menu"
           >
             {isMobileMenuOpen ? (
-              // Close icon
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             ) : (
-              // Hamburger icon
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             )}
           </button>
         </div>
 
-        {/* Mobile Menu Dropdown */}
+        {/* Mobile Menu */}
         {isMobileMenuOpen && (
           <div className="lg:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
             <div className="flex flex-col space-y-4">
-              {/* Navigation Links */}
-              <Link 
-                href="#hero" 
-                className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50"
-                onClick={closeMobileMenu}
-              >
-                Home
-              </Link>
-              <Link 
-                href="#about" 
-                className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50"
-                onClick={closeMobileMenu}
-              >
-                About Us
-              </Link>
-              <Link 
-                href="#services" 
-                className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50"
-                onClick={closeMobileMenu}
-              >
-                Services
-              </Link>
-              <Link 
-                href="#gallery" 
-                className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50"
-                onClick={closeMobileMenu}
-              >
-                Gallery
-              </Link>
-              <Link 
-                href="#contact" 
-                className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50"
-                onClick={closeMobileMenu}
-              >
-                Contact Us
-              </Link>
+              <Link href="#hero" className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50" onClick={closeMobileMenu}>Home</Link>
+              <Link href="#about" className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50" onClick={closeMobileMenu}>About Us</Link>
+              <Link href="#services" className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50" onClick={closeMobileMenu}>Services</Link>
+              <Link href="#gallery" className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50" onClick={closeMobileMenu}>Gallery</Link>
+              <Link href="#contact" className="text-gray-700 hover:text-blue-600 transition px-2 py-2 rounded hover:bg-gray-50" onClick={closeMobileMenu}>Contact Us</Link>
 
-              {/* Auth Buttons */}
+              {/* Mobile Auth Buttons */}
               <div className="flex flex-col space-y-3 pt-4 border-t border-gray-200">
-                <Link
-                  href="/login"
+                <button
+                  onClick={handleLoginClick}
                   className="text-gray-700 hover:text-blue-600 transition text-center px-4 py-2 rounded hover:bg-gray-50"
-                  onClick={closeMobileMenu}
                 >
                   Login
-                </Link>
+                </button>
                 <Link
                   href="/signup"
                   className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition text-center"

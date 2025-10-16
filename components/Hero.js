@@ -18,7 +18,7 @@ export default function Hero() {
         {/* Background Image */}
         <div className="absolute inset-0 transition-all duration-700 ease-in-out group-hover:blur-sm group-hover:brightness-75">
           <Image
-            src="/hero-img.jpeg"
+            src="/hero/hero-img.jpeg"
             alt="Hero background"
             fill
             priority

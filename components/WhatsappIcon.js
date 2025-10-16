@@ -3,8 +3,8 @@ import { useState } from 'react';
 
 export default function WhatsAppIcon() {
   const [isHovered, setIsHovered] = useState(false);
-  const phoneNumber = '918299497567'; // WhatsApp format: country code + number (no + or spaces)
-  const message = 'Hello! I would like to know more about your services.'; // Default message
+  const phoneNumber = '918299497567'; 
+  const message = 'Hello! I would like to know more about your services.'; 
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 

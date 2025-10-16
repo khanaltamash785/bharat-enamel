@@ -7,45 +7,45 @@ import Image from "next/image";
 export default function Features() {
   const features = [
     {
-      img: "/high-quality.png",
+      img: "/features/high-quality.png",
       title: "High-Quality Materials",
       description:
         "Built using premium-grade materials to ensure long-lasting durability, weather resistance, and vibrant visual impact.",
       textColor: "text-white",
     },
     {
-      img: "/images.png",
+      img: "/features/images.png",
       title: "Custom Design Solutions",
       description:
         "From concept to creation, we craft signage tailored to your brand identity, ensuring every design stands out.",
       textColor: "text-white",
     },
     {
-      img: "/led.png",
+      img: "/features/led.png",
       title: "Vintage & Retro Sign boards",
       description:
         "Make your brand visible day and night with energy-efficient LED and backlit signage solutions.",
       textColor: "text-white",
     },
     {
-      img: "/fast.png",
+      img: "/features/fast.png",
       title: "Fast & Reliable Installation",
       description:
         "Our experienced team ensures hassle-free, on-time installation with precision and safety.",
       textColor: "text-white",
     },
     {
-      img: "/support.png",
+      img: "/features/support.png",
       title: "Maintenance & Support",
       description:
         "We offer regular maintenance and repair services to keep your signage looking as good as new.",
       textColor: "text-white",
     },
     {
-      img: "/digital.jpeg",
-      title: "Digital Display Integration",
+      img: "/features/vintage.jpg",
+      title: "Vintage & Retro Sign Boards ",
       description:
-        "Stay ahead with dynamic, programmable digital signage that engages and attracts customers effortlessly.",
+        "Bring timeless charm to your space with our Vintage & Retro Sign Boards, crafted to evoke nostalgia while making a bold statement.",
       textColor: "text-white",
     },
   ];

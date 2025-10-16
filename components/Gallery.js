@@ -1,21 +1,31 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import clsx from "clsx";
 
 export default function GalleryPage() {
-  const images = [
-    "/gallery1.jpeg",
-    "/gallery2.jpeg",
-    "/gallery3.jpeg",
-    "/gallery4.jpeg",
-    "/gallery5.jpeg",
-    "/gallery6.jpeg",
-    "/gallery7.jpeg",
-    "/gallery8.jpeg",
-    "/gallery9.jpeg",
-  ];
+  // State to store dynamically loaded images
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch images from API on component mount
+  useEffect(() => {
+    fetch('/api/gallery/list')
+      .then(res => res.json())
+      .then(data => {
+        // Extract just the URLs from the API response
+        const imageUrls = (data.images || []).map(img => img.url);
+        setImages(imageUrls);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error loading gallery:', error);
+        // Fallback to empty array if API fails
+        setImages([]);
+        setLoading(false);
+      });
+  }, []);
 
   const Gallery = ({ images = [], className }) => {
     const gridRef = useRef(null);
@@ -23,8 +33,7 @@ export default function GalleryPage() {
     const { scrollYProgress } = useScroll({
         target: gridRef,
         offset: ["start end", "end start"],
-        });
-
+    });
 
     // Parallax translations for large screens
     const translateFirst = useTransform(scrollYProgress, [0, 1], [0, 100]);
@@ -53,8 +62,7 @@ export default function GalleryPage() {
             "items-start",
             className
         )}
-        >
-
+      >
         {/* --- Large screens: Parallax 3 columns --- */}
         <div className="hidden lg:grid grid-cols-3 gap-10 max-w-6xl mx-auto py-30 px-6">
           {/* First column */}
@@ -128,6 +136,30 @@ export default function GalleryPage() {
     );
   };
 
+  // Show loading state while fetching images
+  if (loading) {
+    return (
+      <section className="bg-gray-50 pt-6 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-800 mx-auto mb-4"></div>
+          <p className="text-gray-600 text-lg">Loading gallery...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Show message if no images available
+  if (images.length === 0) {
+    return (
+      <section className="bg-gray-50 pt-6 min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-gray-600 text-xl">No images available yet.</p>
+          <p className="text-gray-500 text-sm mt-2">Upload images from the admin panel.</p>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="bg-gray-50 pt-6">
       <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-2 text-center">
@@ -138,4 +170,3 @@ export default function GalleryPage() {
     </section>
   );
 }
-
