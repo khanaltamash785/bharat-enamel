@@ -71,16 +71,16 @@ export default function Footer() {
                   Facebook
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
                   Twitter
                 </Link>
-              </li>
-              <li>
+              </li> */}
+            {/*   <li>
                 <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
                   LinkedIn
                 </Link>
-              </li>
+              </li> */}
               <li>
                 <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
                   Instagram

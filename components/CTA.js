@@ -9,9 +9,25 @@ export default function CTA() {
           Join hundreds of businesses that trust our signage solutions to attract more customers and elevate their brand presence. Let’s create something remarkable together.
         </p>
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
-          <button className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-200 transition text-lg">
+          <button
+            onClick={() => {
+              const phoneNumber = "+918299497567"; // Replace with your number
+
+              // Copy to clipboard
+              navigator.clipboard.writeText(phoneNumber).then(() => {
+                // Redirect to dial pad
+                window.location.href = `tel:${phoneNumber}`;
+              }).catch(err => {
+                console.error("Failed to copy number: ", err);
+                // Fallback to redirect if copy fails
+                window.location.href = `tel:${phoneNumber}`;
+              });
+            }}
+            className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-200 transition text-lg"
+          >
             Get a Free Design Consultation
           </button>
+
           <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition text-lg">
             View Our Portfolio
           </button>
