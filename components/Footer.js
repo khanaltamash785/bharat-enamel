@@ -1,7 +1,79 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [isValidEmail, setIsValidEmail] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    
+    // Validate email on change
+    if (value.length > 0) {
+      setIsValidEmail(validateEmail(value));
+    } else {
+      setIsValidEmail(true);
+    }
+    
+    // Clear any previous messages
+    setSubmitMessage("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Validate email before submission
+    if (!email) {
+      setIsValidEmail(false);
+      setSubmitMessage("Please enter an email address");
+      return;
+    }
+    
+    if (!validateEmail(email)) {
+      setIsValidEmail(false);
+      setSubmitMessage("Please enter a valid email address");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSubmitMessage("Successfully subscribed! Thank you.");
+        setEmail("");
+        setIsValidEmail(true);
+      } else {
+        setSubmitMessage(data.error || "Failed to subscribe. Please try again.");
+      }
+    } catch (error) {
+      setSubmitMessage("An error occurred. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-6 py-12">
@@ -71,16 +143,6 @@ export default function Footer() {
                   Facebook
                 </Link>
               </li>
-              {/* <li>
-                <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
-                  Twitter
-                </Link>
-              </li> */}
-            {/*   <li>
-                <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
-                  LinkedIn
-                </Link>
-              </li> */}
               <li>
                 <Link href="#" className="hover:text-indigo-400 transition-colors duration-200 inline-block">
                   Instagram
@@ -97,15 +159,31 @@ export default function Footer() {
             <p className="text-gray-400 text-sm mb-4 leading-relaxed">
               Subscribe to get latest updates and news
             </p>
-            <form className="flex flex-col space-y-3">
+            <form onSubmit={handleSubmit} className="flex flex-col space-y-3">
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="px-4 py-2.5 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200 placeholder:text-gray-500"
+                value={email}
+                onChange={handleEmailChange}
+                className={`px-4 py-2.5 rounded-lg bg-gray-800 text-white border ${
+                  !isValidEmail ? "border-red-500" : "border-gray-700"
+                } focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all duration-200 placeholder:text-gray-500`}
               />
-              <button className="bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium">
-                Subscribe
+              {!isValidEmail && (
+                <p className="text-red-400 text-xs">Please enter a valid email address</p>
+              )}
+              <button 
+                type="submit"
+                disabled={isSubmitting}
+                className="bg-indigo-600 text-white px-4 py-2.5 rounded-lg hover:bg-indigo-700 transition-colors duration-200 font-medium disabled:bg-gray-600 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Subscribing..." : "Subscribe"}
               </button>
+              {submitMessage && (
+                <p className={`text-xs ${submitMessage.includes("Successfully") ? "text-green-400" : "text-red-400"}`}>
+                  {submitMessage}
+                </p>
+              )}
             </form>
           </div>
         </div>

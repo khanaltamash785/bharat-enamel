@@ -18,10 +18,10 @@ export default function Hero() {
         {/* Background Image */}
         <div className="absolute inset-0 transition-all duration-700 ease-in-out group-hover:blur-sm group-hover:brightness-75">
           <Image
-            src="/hero-img.jpeg"
+            src="/hero/hero-img.jpeg"
             alt="Hero background"
             fill
-            sizes=""
+            sizes="100vw"
             priority
             className="object-cover object-center z-0"
           />
@@ -59,11 +59,12 @@ export default function Hero() {
           }`}
         >
           <Image
-            src="/hero-img.jpeg"
+            src="/hero/hero-img.jpeg"
             alt="Hero background"
             fill
             priority
             className="object-cover object-center z-0"
+            sizes="100vw"
           />
         </div>
 
