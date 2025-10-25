@@ -1,0 +1,15 @@
+{
+  "/_app": "pages/_app.js",
+  "/_document": "pages/_document.js",
+  "/admin/dashboard": "pages/admin/dashboard.html",
+  "/_error": "pages/_error.js",
+  "/admin": "pages/admin.html",
+  "/api/auth": "pages/api/auth.js",
+  "/api/auth/login": "pages/api/auth/login.js",
+  "/api/gallery/delete": "pages/api/gallery/delete.js",
+  "/": "pages/index.html",
+  "/api/gallery/list": "pages/api/gallery/list.js",
+  "/api/subscribe": "pages/api/subscribe.js",
+  "/api/gallery/upload": "pages/api/gallery/upload.js",
+  "/404": "pages/404.html"
+}
