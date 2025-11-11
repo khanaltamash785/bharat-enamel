@@ -2,26 +2,23 @@
 
 import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import clsx from "clsx";
 
 export default function GalleryPage() {
-  // State to store dynamically loaded images
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch images from API on component mount
   useEffect(() => {
     fetch('/api/gallery/list')
       .then(res => res.json())
       .then(data => {
-        // Extract just the URLs from the API response
         const imageUrls = (data.images || []).map(img => img.url);
         setImages(imageUrls);
         setLoading(false);
       })
       .catch(error => {
         console.error('Error loading gallery:', error);
-        // Fallback to empty array if API fails
         setImages([]);
         setLoading(false);
       });
@@ -35,12 +32,10 @@ export default function GalleryPage() {
         offset: ["start end", "end start"],
     });
 
-    // Parallax translations for large screens
     const translateFirst = useTransform(scrollYProgress, [0, 1], [0, 100]);
     const translateSecond = useTransform(scrollYProgress, [0, 1], [0, 400]);
     const translateThird = useTransform(scrollYProgress, [0, 1], [0, 100]);
 
-    // Split images into 3 columns (duplicated for looping effect)
     const third = Math.ceil(images.length / 3);
     const firstPart = [...images.slice(0, third), ...images.slice(0, third)];
     const secondPart = [...images.slice(third, 2 * third), ...images.slice(third, 2 * third)];
@@ -63,80 +58,74 @@ export default function GalleryPage() {
             className
         )}
       >
-        {/* --- Large screens: Parallax 3 columns --- */}
+        {/* Desktop: Parallax 3 columns */}
         <div className="hidden lg:grid grid-cols-3 gap-10 max-w-6xl mx-auto py-30 px-6">
-          {/* First column */}
           <div className="grid gap-10">
             {firstPart.map((img, i) => (
               <motion.div key={`col1-${i}`} style={{ y: translateFirst }} {...motionProps}>
-                <img
-                  src={img}
-                  alt={`gallery-${i}`}
-                  className="h-80 w-full object-cover rounded-2xl shadow-md"
-                  loading="lazy"
-                />
+                <div className="relative h-80 w-full rounded-2xl shadow-md overflow-hidden">
+                  <Image
+                    src={img}
+                    alt={`gallery-${i}`}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Second column */}
           <div className="grid gap-10">
             {secondPart.map((img, i) => (
               <motion.div key={`col2-${i}`} style={{ y: translateSecond }} {...motionProps}>
-                <img
-                  src={img}
-                  alt={`gallery-${i}`}
-                  className="h-80 w-full object-cover rounded-2xl shadow-md"
-                  loading="lazy"
-                />
+                <div className="relative h-80 w-full rounded-2xl shadow-md overflow-hidden">
+                  <Image
+                    src={img}
+                    alt={`gallery-${i}`}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
 
-          {/* Third column */}
           <div className="grid gap-10">
             {thirdPart.map((img, i) => (
               <motion.div key={`col3-${i}`} style={{ y: translateThird }} {...motionProps}>
-                <img
-                  src={img}
-                  alt={`gallery-${i}`}
-                  className="h-80 w-full object-cover rounded-2xl shadow-md"
-                  loading="lazy"
-                />
+                <div className="relative h-80 w-full rounded-2xl shadow-md overflow-hidden">
+                  <Image
+                    src={img}
+                    alt={`gallery-${i}`}
+                    fill
+                    className="object-cover"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 33vw"
+                  />
+                </div>
               </motion.div>
             ))}
           </div>
         </div>
 
-        {/* --- Small & Medium screens: Collage --- */}
-        <div className="grid grid-cols-2 gap-4 px-4 py-10 lg:hidden">
-          {images.map((img, i) => (
-            <motion.div
-              key={`mobile-${i}`}
-              {...motionProps}
-              className={clsx(
-                "rounded-2xl overflow-hidden shadow-md",
-                i % 5 === 0
-                  ? "col-span-2 row-span-2"
-                  : i % 3 === 0
-                  ? "row-span-2"
-                  : "row-span-1"
-              )}
-            >
-              <img
-                src={img}
-                alt={`gallery-${i}`}
-                className="w-full h-full object-cover"
-                loading="lazy"
-              />
-            </motion.div>
+        {/* Mobile & Tablet: Horizontal scroll with snap - NO click effect */}
+        <div className="lg:hidden flex space-x-4 overflow-x-auto scrollbar-hide snap-x snap-mandatory px-2 pb-4 pt-4">
+          {images.map((img, index) => (
+            <GalleryCardMobile
+              key={`mobile-${index}`}
+              image={img}
+              index={index}
+            />
           ))}
         </div>
       </div>
     );
   };
 
-  // Show loading state while fetching images
   if (loading) {
     return (
       <section className="bg-gray-50 pt-6 min-h-screen flex items-center justify-center">
@@ -148,7 +137,6 @@ export default function GalleryPage() {
     );
   }
 
-  // Show message if no images available
   if (images.length === 0) {
     return (
       <section className="bg-gray-50 pt-6 min-h-screen flex items-center justify-center">
@@ -161,12 +149,28 @@ export default function GalleryPage() {
   }
 
   return (
-    <section className="bg-gray-50 pt-6">
+    <section className="bg-gray-50 pt-24">
       <h2 className="text-3xl md:text-5xl font-bold text-gray-800 mb-2 text-center">
         Our Work Gallery
       </h2>
       <div className="w-72 h-1 bg-gray-800 mx-auto rounded-full"></div>
       <Gallery images={images} />
     </section>
+  );
+}
+
+/* Mobile Gallery Card - Simple display without click interactions */
+function GalleryCardMobile({ image, index }) {
+  return (
+    <div className="relative w-[80vw] max-w-xs h-96 rounded-xl shadow-lg flex-shrink-0 overflow-hidden snap-center">
+      <Image
+        src={image}
+        alt={`gallery-${index}`}
+        fill
+        className="object-cover"
+        loading="lazy"
+        sizes="80vw"
+      />
+    </div>
   );
 }

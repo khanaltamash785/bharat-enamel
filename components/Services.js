@@ -29,7 +29,7 @@ export default function Services() {
   ];
 
   return (
-    <section className="py-8 md:py-20 bg-white">
+    <section className="py-8 md:py-20 bg-white pt-24 lg:pt-23">
       <div className="container mx-auto px-4 md:px-6">
         {/* Heading */}
         <div className="text-center mb-10 md:mb-14">

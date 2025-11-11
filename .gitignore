@@ -42,3 +42,14 @@ next-env.d.ts
 
 #local
 .env.local
+# Next.js build output
+.next/
+out/
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

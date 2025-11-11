@@ -11,6 +11,7 @@ import Gallery from "../../components/Gallery";
 import Contact from "../../components/Contact";
 import About from "../../components/About";
 import WhatsAppIcon from "../../components/WhatsappIcon";
+import ScrollToTop from "../../components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function Home() {
       <section id="about"><About /></section>
       <section id="contact"><Contact /></section>
       <CTA />
+      <ScrollToTop />
       <WhatsAppIcon />
       <Footer />
     </div>

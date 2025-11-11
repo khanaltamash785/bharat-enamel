@@ -1,6 +1,6 @@
 export default function CTA() {
   return (
-    <section className="py-20 bg-gray-700 text-white mt-8">
+    <section className="py-20 bg-gray-700 text-white mt-8 mb-0">
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-4xl md:text-5xl font-bold mb-6">
           Ready to Transform Your Brand Visibility?

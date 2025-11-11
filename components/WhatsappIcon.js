@@ -3,14 +3,14 @@ import { useState } from 'react';
 
 export default function WhatsAppIcon() {
   const [isHovered, setIsHovered] = useState(false);
-  const phoneNumber = '918299497567'; 
+  const phoneNumber = '918299497567';
   const message = 'Hello! I would like to know more about your services.'; 
   
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
     <>
-      {/* Floating WhatsApp Button */}
+      {/* Floating WhatsApp Button */}  
       <a
         href={whatsappUrl}
         target="_blank"
