@@ -43,7 +43,7 @@ next-env.d.ts
 #local
 .env.local
 # Next.js build output
-.next/
+# .next/
 out/
 node_modules/
 
