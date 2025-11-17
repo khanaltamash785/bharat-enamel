@@ -1,4 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
+import SEO from "../../components/SEO";
 import Header from "../../components/Header";
 import Hero from "../../components/Hero";
 import Features from "../../components/Features";
@@ -25,21 +26,41 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
   return (
-    <div>
-      <Header />
-      <section id="hero"><Hero /></section>
-      <section id="features"><Features /></section>
-      <section id="services"><Services /></section>
-      <section id="testimonials"><Testimonials /></section>
-      <Stats />
-      <section id="gallery"><Gallery /></section>
-      <section id="about"><About /></section>
-      <section id="contact"><Contact /></section>
-      <CTA />
-      <ScrollToTop />
-      <WhatsAppIcon />
-      <Footer />
-    </div>
+    <>
+      <SEO
+        title="Bharat Enamel - Premium Enameling Services | Industrial Coating Solutions"
+        description="Leading provider of high-quality enameling services in India. Specialized in industrial enameling, coating solutions, and custom enamel work with 25+ years of experience."
+        keywords="enamel coating, industrial enameling, Bharat Enamel, coating services, enamel work India, industrial coating, metal coating"
+      />
+      <div>
+        <Header />
+        <section id="hero">
+          <Hero />
+        </section>
+        <section id="features">
+          <Features />
+        </section>
+        <section id="services">
+          <Services />
+        </section>
+        <section id="testimonials">
+          <Testimonials />
+        </section>
+        <Stats />
+        <section id="gallery">
+          <Gallery />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="contact">
+          <Contact />
+        </section>
+        <CTA />
+        <ScrollToTop />
+        <WhatsAppIcon />
+        <Footer />
+      </div>
+    </>
   );
 }
-
